@@ -56,8 +56,12 @@ class ParseIPA(object):
             self.errors.append('%s.plist file not found in IPA' % name)
         else:
             content = zip_obj.read(plist_filename)
-            if ParseIPA.xml_rx.match(content):
-                data = plistlib.readPlistFromString(content)
+            if ParseIPA.xml_rx.match(content.decode('utf-8')):
+                try:  # Python 2
+                    data = plistlib.readPlistFromString(content)
+                except AttributeError:  # Python => 3.4
+                    # pylint: disable=no-member
+                    data = plistlib.loads(content)
             else:
                 self.temp_directory = tempfile.mkdtemp()
 
@@ -88,7 +92,7 @@ class ParseIPA(object):
         return zipfile.is_zipfile(self.ipa_filename)
 
 def process_ipa(ipa_filename, verbose = False):
-    print 'processing %s' % ipa_filename
+    print('processing %s' % ipa_filename)
 
     errors = []
     parse = ParseIPA(ipa_filename)
@@ -141,7 +145,7 @@ def process_ipa(ipa_filename, verbose = False):
         try:
             if parse.temp_directory != '':
                 shutil.rmtree(parse.temp_directory)
-        except IOError, ex:
+        except IOError as ex:
             print(str(ex))
 
         return result
@@ -165,14 +169,14 @@ def process_ipas_in_list(file_list, verbose):
 def ipas_in_dir(dir):
     dir = os.path.expanduser(dir)
     if not os.path.isdir(dir):
-        print "%s is not a valid directory" % dir
+        print("%s is not a valid directory" % dir)
         sys.exit(2)
 
     return [os.path.join(dir, f) for f in os.listdir(dir) if re.match(r'.*\.ipa$', f)]
     
 def ipas_in_dirs(dir_list, verbose = False):
     if verbose:
-        print "collecting IPAs from %s" % "\n ".join(dir_list)
+        print("collecting IPAs from %s" % "\n ".join(dir_list))
     result = []
     for dir in dir_list:
         # don't use yield to get errors first
@@ -215,8 +219,8 @@ def main():
     # The following message is primarily for (Debian-based) Linux systems.
     plutil_check = os.system('which plutil >/dev/null')
     if plutil_check != 0:
-        print '''The program 'plutil' is currently not installed. You can install it by typing:
-                sudo apt-get install libplist-utils'''
+        print('''The program 'plutil' is currently not installed. You can install it by typing:
+                sudo apt-get install libplist-utils''')
         sys.exit(1)
 
     if isinstance(options.output_file, str):
@@ -230,7 +234,7 @@ def main():
     mappings = process_ipas_in_list(ipa_list, options.verbose)
 
     if len(mappings) == 0 and uses_default_input:
-        print "Did not find any IPAs in default directories (%s).\nTry --help to see more options." % ", ".join(IPA_DEFAULT_DIRS)
+        print("Did not find any IPAs in default directories (%s).\nTry --help to see more options." % ", ".join(IPA_DEFAULT_DIRS))
     else:
         json.dump(mappings, options.output_file, indent=2, sort_keys=True)
 

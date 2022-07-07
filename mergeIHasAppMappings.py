@@ -12,10 +12,10 @@ def print_stats(mappings):
         all_app_ids.extend(app_ids)
     all_app_ids = set(all_app_ids)
 
-    print "schemes: %d, apps: %d" % (len(all_schemes), len(all_app_ids))
+    print("schemes: %d, apps: %d" % (len(all_schemes), len(all_app_ids)))
 
 def loadMappings(filename):
-    print "loading %s" % filename
+    print("loading %s" % filename)
     mappings = json.load(open(filename, 'r'))
     if isinstance(mappings, dict):
         result = mappings
@@ -31,7 +31,7 @@ def loadMappings(filename):
     return result
 
 def mergeMappings(mappings_list):
-    print "merging %d mappings" % len(mappings_list)
+    print("merging %d mappings" % len(mappings_list))
     merged = {}
     for mappings in mappings_list:
         for scheme, ids in mappings.items():

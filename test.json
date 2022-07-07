@@ -1,0 +1,47 @@
+[
+  {
+    "CFBundleDisplayName": "Netflix",
+    "CFBundleExecutable": "Argo",
+    "CFBundleIdentifier": "com.netflix.Netflix",
+    "CFBundleShortVersionString": "14.44.0",
+    "CFBundleVersion": "3973",
+    "DTPlatformVersion": "15.2",
+    "MinimumOSVersion": "14.0",
+    "UIDeviceFamily": [
+      1,
+      2
+    ],
+    "UIRequiredDeviceCapabilities": [
+      "arm64"
+    ],
+    "item_id": 363590051,
+    "name": "Netflix",
+    "url_schemes": [
+      "nflx"
+    ]
+  },
+  {
+    "CFBundleDisplayName": "Nike",
+    "CFBundleExecutable": "NikeApp",
+    "CFBundleIdentifier": "com.nike.omega",
+    "CFBundleShortVersionString": "22.22.2",
+    "CFBundleVersion": "2206290212",
+    "DTPlatformVersion": "15.2",
+    "MinimumOSVersion": "13.0",
+    "UIDeviceFamily": [
+      1
+    ],
+    "UIRequiredDeviceCapabilities": [
+      "arm64"
+    ],
+    "item_id": 1095459556,
+    "name": "Nike",
+    "url_schemes": [
+      "com.nike.omega",
+      "fb1055885851158192",
+      "line3rdp.com.nike.omega",
+      "mynike",
+      "wx40e847fa4a231b46"
+    ]
+  }
+]                              

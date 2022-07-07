@@ -20,34 +20,34 @@ def print_stats(bundles):
     all_app_ids = set(all_app_ids)
     all_schemes = set(all_schemes)
 
-    print "schemes: %d, apps: %d, bundles: %d" % (len(all_schemes), len(all_app_ids), len(all_bundles))
+    print("schemes: %d, apps: %d, bundles: %d" % (len(all_schemes), len(all_app_ids), len(all_bundles)))
 
 def loadMappings(filename):
-    print "loading %s" % filename
+    print("loading %s" % filename)
     bundles = json.load(open(filename, 'r'))
     print_stats(bundles)
     return bundles
 
 def mergeMappings(bundles_list):
-    print "merging %d bundle lists" % len(bundles_list)
+    print("merging %d bundle lists" % len(bundles_list))
 
     items = {}
     for bundles in bundles_list:
         for bundle in bundles:
             bundle_key = key_for_bundle(bundle)
 
-            if items.has_key(bundle_key):
+            if bundle_key in items.keys():
                 existing = items.get(bundle_key)
                 def sanityCheck(key):
                     if existing.get(key, None) != bundle.get(key, None):
-                        print "inconsistency: %s has different value for key %s" % (bundle_key, key)
+                        print("inconsistency: %s has different value for key %s" % (bundle_key, key))
 
                 for key in ["CFBundleIdentifier", "name", "url_schemes"]:
                     sanityCheck("")
             else:
                 items[bundle_key] = bundle
 
-    merged = items.values()
+    merged = list(items.values())
     merged.sort(key=lambda bundle:("%s#%s" % (bundle["CFBundleIdentifier"], bundle.get("CFBundleVersion",""))).upper())
 
     print_stats(merged)
